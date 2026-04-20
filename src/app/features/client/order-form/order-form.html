@@ -1,0 +1,75 @@
+<app-navbar />
+
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isEditMode ? 'Edit Order' : 'New Order' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (loading) {
+        <div class="spinner-container">
+          <mat-spinner diameter="40" />
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div formArrayName="items">
+            @for (control of items.controls; track $index; let i = $index) {
+              <mat-card class="item-card" [formGroupName]="i">
+                <div class="item-header">
+                  <span class="item-label">Item {{ i + 1 }}</span>
+                  @if (items.length > 1) {
+                    <button mat-icon-button type="button" color="warn" (click)="removeItem(i)" matTooltip="Remove item">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+
+                <div class="item-fields">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Inventory Item</mat-label>
+                    <mat-select formControlName="inventoryItemId">
+                      @for (inv of inventoryItems; track inv.id) {
+                        <mat-option [value]="inv.id">{{ inv.name }} (stock: {{ inv.quantity }})</mat-option>
+                      }
+                    </mat-select>
+                    <mat-error>Required</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Quantity</mat-label>
+                    <input matInput type="number" formControlName="requestedQuantity" min="1" />
+                    <mat-error>Min 1</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Deadline Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="deadlineDate" [min]="today" readonly />
+                    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                    <mat-datepicker #picker />
+                    <mat-error>Required</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-card>
+            }
+          </div>
+
+          <button mat-stroked-button type="button" (click)="addItem()" class="add-item-btn">
+            <mat-icon>add</mat-icon> Add Item
+          </button>
+
+          <div class="form-actions">
+            <button mat-button type="button" (click)="cancel()">Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="submitting || form.invalid">
+              @if (submitting) {
+                <mat-spinner diameter="18" />
+              } @else {
+                {{ isEditMode ? 'Update Order' : 'Create Order' }}
+              }
+            </button>
+          </div>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,52 @@
+.container {
+  max-width: 800px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.item-card {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.item-label {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.item-fields {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 16px;
+}
+
+.add-item-btn {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+@media (max-width: 600px) {
+  .item-fields {
+    grid-template-columns: 1fr;
+  }
+}

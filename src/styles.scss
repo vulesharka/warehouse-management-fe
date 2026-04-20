@@ -20,20 +20,28 @@ html {
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
+  background-color: #f0f2f5;
   color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
+  font-family: Roboto, sans-serif;
   margin: 0;
   height: 100%;
 }
-/* You can add global styles to this file, and also import other style files */
+
+// Cards look cleaner with subtle shadow
+mat-card {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+
+// Table header background
+mat-header-row {
+  background-color: #f8f9fa;
+}
+
+// Table row hover
+mat-row:hover {
+  background-color: #f5f5f5;
+}
+

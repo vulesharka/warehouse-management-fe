@@ -1,0 +1,74 @@
+<app-navbar />
+
+<div class="container">
+  @if (loading) {
+    <div class="spinner-container">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else if (order) {
+    <div class="page-header">
+      <button mat-icon-button (click)="back()" matTooltip="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>Order {{ order.orderNumber }}</h2>
+      <span [class]="'status-badge ' + order.status.toLowerCase()">{{ order.status }}</span>
+    </div>
+
+    @if (order.status === 'DECLINED' && order.declineReason) {
+      <div class="decline-reason">
+        <mat-icon>info</mat-icon>
+        <span>Declined: {{ order.declineReason }}</span>
+      </div>
+    }
+
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="info-grid">
+          <div><span class="label">Client</span><span>{{ order.clientUsername }}</span></div>
+          <div><span class="label">Created</span><span>{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</span></div>
+          <div><span class="label">Submitted</span><span>{{ order.submittedDate ? (order.submittedDate | date:'dd/MM/yyyy HH:mm') : '—' }}</span></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <h3>Items</h3>
+    <mat-table [dataSource]="order.items" class="items-table">
+
+      <ng-container matColumnDef="itemName">
+        <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+        <mat-cell *matCellDef="let i">{{ i.itemName }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="requestedQuantity">
+        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let i">{{ i.requestedQuantity }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deadlineDate">
+        <mat-header-cell *matHeaderCellDef>Deadline</mat-header-cell>
+        <mat-cell *matCellDef="let i">{{ i.deadlineDate | date:'dd/MM/yyyy' }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['itemName', 'requestedQuantity', 'deadlineDate']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['itemName', 'requestedQuantity', 'deadlineDate'];"></mat-row>
+    </mat-table>
+
+    <div class="actions">
+      @if (canEdit) {
+        <button mat-stroked-button (click)="editOrder()">
+          <mat-icon>edit</mat-icon> Edit
+        </button>
+      }
+      @if (canSubmit) {
+        <button mat-raised-button color="primary" (click)="submitOrder()">
+          <mat-icon>send</mat-icon> Submit for Approval
+        </button>
+      }
+      @if (canCancel) {
+        <button mat-raised-button color="warn" (click)="cancelOrder()">
+          <mat-icon>cancel</mat-icon> Cancel Order
+        </button>
+      }
+    </div>
+  }
+</div>
