@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -71,7 +72,8 @@
               "buildTarget": "warehouse-management-fe:build:production"
             },
             "development": {
-              "buildTarget": "warehouse-management-fe:build:development"
+              "buildTarget": "warehouse-management-fe:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
