@@ -1,0 +1,54 @@
+<app-navbar />
+
+<div class="container">
+  <div class="page-header">
+    <h2>Inventory</h2>
+    <button mat-raised-button color="primary" (click)="openAdd()">
+      <mat-icon>add</mat-icon> Add Item
+    </button>
+  </div>
+
+  <mat-progress-bar mode="indeterminate" *ngIf="loading" />
+
+  <mat-table [dataSource]="items" class="data-table">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let i">{{ i.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+      <mat-cell *matCellDef="let i">{{ i.quantity }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="unitPrice">
+      <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
+      <mat-cell *matCellDef="let i">{{ i.unitPrice | currency }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="packageVolume">
+      <mat-header-cell *matHeaderCellDef>Volume (m³)</mat-header-cell>
+      <mat-cell *matCellDef="let i">{{ i.packageVolume }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let i">
+        <button mat-icon-button matTooltip="Edit" (click)="openEdit(i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Delete" color="warn" (click)="deleteItem(i.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">No items found</td>
+    </tr>
+  </mat-table>
+</div>

@@ -14,6 +14,11 @@ const routes: Routes = [
     canActivate: [authGuard, roleGuard('ROLE_CLIENT')],
     loadChildren: () => import('./features/client/client-module').then(m => m.ClientModule)
   },
+  {
+    path: 'manager',
+    canActivate: [authGuard, roleGuard('ROLE_WAREHOUSE_MANAGER')],
+    loadChildren: () => import('./features/manager/manager-module').then(m => m.ManagerModule)
+  },
   { path: '**', redirectTo: 'login' }
 ];
 

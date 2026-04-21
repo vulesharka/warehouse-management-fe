@@ -1,11 +1,23 @@
 .container {
-  max-width: 800px;
-  margin: 24px auto;
+  max-width: 860px;
+  margin: 32px auto;
   padding: 0 16px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+  }
 }
 
 .item-card {
   margin-bottom: 16px;
+  border-radius: 10px !important;
+  border-left: 4px solid #1565c0 !important;
   padding: 16px;
 }
 
@@ -13,12 +25,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-.item-label {
-  font-weight: 500;
-  font-size: 15px;
+.item-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1565c0;
 }
 
 .item-fields {
@@ -28,8 +43,10 @@
 }
 
 .add-item-btn {
-  margin-top: 8px;
+  margin-top: 4px;
   width: 100%;
+  border-style: dashed !important;
+  color: #1565c0;
 }
 
 .form-actions {
@@ -37,12 +54,6 @@
   justify-content: flex-end;
   gap: 8px;
   margin-top: 24px;
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  padding: 40px;
 }
 
 @media (max-width: 600px) {

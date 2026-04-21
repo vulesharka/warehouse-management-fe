@@ -11,6 +11,7 @@ export class NavbarComponent {
   private readonly authService = inject(AuthService);
 
   readonly username = this.authService.getUsername();
+  readonly role = this.authService.getRole();
 
   logout(): void {
     this.authService.logout();

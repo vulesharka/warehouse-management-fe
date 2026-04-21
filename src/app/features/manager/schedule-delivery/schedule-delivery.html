@@ -1,0 +1,79 @@
+<app-navbar />
+
+<div class="container">
+  <div class="page-header">
+    <button mat-icon-button (click)="back()" matTooltip="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>Schedule Delivery</h2>
+  </div>
+
+  @if (loading) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else {
+    <mat-card class="schedule-card">
+      <mat-card-content>
+
+        <div class="section">
+          <p class="section-title">Search Range</p>
+          <p class="days-hint">How many days ahead to search for availability</p>
+          <mat-form-field appearance="outline" class="days-field">
+            <mat-label>Look-ahead days</mat-label>
+            <input matInput type="number" min="1" [(ngModel)]="daysLookup"
+                   (change)="onDaysChange($any($event.target).value)"
+                   placeholder="Default" />
+          </mat-form-field>
+          <mat-progress-bar mode="indeterminate" *ngIf="daysLoading" class="days-progress" />
+        </div>
+
+        @if (availableDays.length === 0) {
+          <div class="no-days">
+            <mat-icon>event_busy</mat-icon>
+            <span>No available delivery dates for the selected range.</span>
+          </div>
+        } @else {
+          <form [formGroup]="form" (ngSubmit)="submit()" class="schedule-form">
+
+            <div class="field-group">
+              <p class="section-title">Delivery Date</p>
+              <p class="field-hint">{{ availableDays.length }} date(s) available — only those are selectable in the calendar</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Select a date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="deliveryDate"
+                       [matDatepickerFilter]="dateFilter" readonly />
+                <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                <mat-datepicker #picker />
+                <mat-error>Required</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="field-group">
+              <p class="section-title">Trucks</p>
+              <p class="field-hint">Select one or more trucks to assign for this delivery</p>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Select trucks</mat-label>
+                <mat-select formControlName="truckIds" multiple>
+                  @for (truck of trucks; track truck.id) {
+                    <mat-option [value]="truck.id">
+                      {{ truck.licensePlate }} — {{ truck.containerVolume }} m³
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-error>Select at least one truck</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-button type="button" (click)="back()">Cancel</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || submitting">
+                <mat-icon>local_shipping</mat-icon> Schedule Delivery
+              </button>
+            </div>
+
+          </form>
+        }
+
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

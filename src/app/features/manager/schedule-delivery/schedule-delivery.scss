@@ -1,0 +1,106 @@
+.container {
+  max-width: 640px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+  }
+}
+
+.schedule-card {
+  border-radius: 12px !important;
+  padding: 8px 16px 16px;
+}
+
+.section {
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1565c0;
+  margin: 0 0 12px;
+}
+
+.days-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.days-field {
+  width: 200px;
+}
+
+.days-progress {
+  margin-top: 6px;
+  width: 200px;
+  border-radius: 4px;
+}
+
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.field-group {
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.field-hint {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #757575;
+  line-height: 1.5;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.no-days {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 16px;
+  color: #757575;
+  background: #fafafa;
+  border-radius: 8px;
+
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: #bdbdbd;
+  }
+
+  span {
+    font-size: 15px;
+  }
+}

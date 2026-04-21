@@ -1,5 +1,12 @@
 <mat-toolbar color="primary">
   <span>Warehouse Management</span>
+  @if (role === 'ROLE_WAREHOUSE_MANAGER') {
+    <nav class="nav-links">
+      <a mat-button routerLink="/manager/orders" routerLinkActive="active-link">Orders</a>
+      <a mat-button routerLink="/manager/inventory" routerLinkActive="active-link">Inventory</a>
+      <a mat-button routerLink="/manager/trucks" routerLinkActive="active-link">Trucks</a>
+    </nav>
+  }
   <span class="spacer"></span>
   <span class="username">{{ username }}</span>
   <button mat-icon-button (click)="logout()" matTooltip="Logout">

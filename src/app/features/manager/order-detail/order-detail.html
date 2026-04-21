@@ -1,0 +1,83 @@
+<app-navbar />
+
+<div class="container">
+  <mat-progress-bar mode="indeterminate" *ngIf="loading" />
+
+  @if (!loading && order) {
+    <div class="page-header">
+      <button mat-icon-button (click)="back()" matTooltip="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>Order {{ order.orderNumber }}</h2>
+      <span [class]="'status-badge ' + order.status.toLowerCase()">{{ order.status }}</span>
+    </div>
+
+    @if (order.status === 'DECLINED' && order.declineReason) {
+      <div class="decline-reason-box">
+        <mat-icon>info</mat-icon>
+        <span>Declined: {{ order.declineReason }}</span>
+      </div>
+    }
+
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="info-grid">
+          <div><span class="label">Client</span><span>{{ order.clientUsername }}</span></div>
+          <div><span class="label">Created</span><span>{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</span></div>
+          <div><span class="label">Submitted</span><span>{{ order.submittedDate ? (order.submittedDate | date:'dd/MM/yyyy HH:mm') : '—' }}</span></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <h3>Items</h3>
+    <mat-table [dataSource]="order.items" class="items-table">
+
+      <ng-container matColumnDef="itemName">
+        <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+        <mat-cell *matCellDef="let i">{{ i.itemName }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="requestedQuantity">
+        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let i">{{ i.requestedQuantity }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deadlineDate">
+        <mat-header-cell *matHeaderCellDef>Deadline</mat-header-cell>
+        <mat-cell *matCellDef="let i">{{ i.deadlineDate | date:'dd/MM/yyyy' }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['itemName', 'requestedQuantity', 'deadlineDate']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['itemName', 'requestedQuantity', 'deadlineDate'];"></mat-row>
+    </mat-table>
+
+    @if (canApproveDecline) {
+      <div class="action-section">
+        <button mat-raised-button color="primary" [disabled]="submitting" (click)="approveOrder()">
+          <mat-icon>check_circle</mat-icon> Approve
+        </button>
+        <button mat-stroked-button color="warn" (click)="toggleDeclineForm()">
+          <mat-icon>cancel</mat-icon> Decline
+        </button>
+      </div>
+
+      @if (showDeclineForm) {
+        <mat-card class="decline-form-card">
+          <mat-card-content>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Decline reason (optional)</mat-label>
+              <textarea matInput [(ngModel)]="declineReason" rows="3"></textarea>
+            </mat-form-field>
+            <div class="decline-form-actions">
+              <button mat-button (click)="toggleDeclineForm()">Cancel</button>
+              <button mat-raised-button color="warn" [disabled]="submitting" (click)="confirmDecline()">
+                Confirm Decline
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    }
+
+  }
+</div>

@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit Truck' : 'New Truck' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>License Plate</mat-label>
+      <input matInput formControlName="licensePlate" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Chassis Number</mat-label>
+      <input matInput formControlName="chassisNumber" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Container Volume (m³)</mat-label>
+      <input matInput type="number" formControlName="containerVolume" min="0.01" step="0.01" />
+      <mat-error>Min 0.01</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit()">
+    {{ isEdit ? 'Update' : 'Add' }}
+  </button>
+</mat-dialog-actions>

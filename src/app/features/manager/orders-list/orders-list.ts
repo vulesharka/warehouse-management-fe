@@ -6,18 +6,18 @@ import { OrderApiService } from '../../../shared/services/order-api.service';
 import { OrderSummaryResponse, OrderStatus } from '../../../core/models/order.model';
 
 @Component({
-  selector: 'app-orders-list',
+  selector: 'app-manager-orders-list',
   templateUrl: './orders-list.html',
   styleUrl: './orders-list.scss',
   standalone: false
 })
-export class OrdersListComponent implements OnInit {
+export class ManagerOrdersListComponent implements OnInit {
   private readonly orderApi = inject(OrderApiService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  displayedColumns = ['orderNumber', 'status', 'createdAt', 'submittedDate', 'actions'];
+  displayedColumns = ['orderNumber', 'clientUsername', 'status', 'submittedDate', 'actions'];
   orders: OrderSummaryResponse[] = [];
   totalElements = 0;
   pageSize = 10;
@@ -37,7 +37,7 @@ export class OrdersListComponent implements OnInit {
   loadOrders(): void {
     this.loading = true;
     const status = this.selectedStatus || undefined;
-    this.orderApi.getMyOrders(status as OrderStatus, this.pageIndex, this.pageSize).subscribe({
+    this.orderApi.getAllOrders(status as OrderStatus, this.pageIndex, this.pageSize).subscribe({
       next: (page) => {
         this.orders = page.content;
         this.totalElements = page.totalElements;
@@ -64,45 +64,11 @@ export class OrdersListComponent implements OnInit {
     this.loadOrders();
   }
 
-  canEdit(status: OrderStatus): boolean {
-    return status === 'CREATED' || status === 'DECLINED';
-  }
-
-  canSubmit(status: OrderStatus): boolean {
-    return status === 'CREATED' || status === 'DECLINED';
-  }
-
-  canCancel(status: OrderStatus): boolean {
-    return ['CREATED', 'AWAITING_APPROVAL', 'APPROVED'].includes(status);
-  }
-
   viewOrder(id: number): void {
-    this.router.navigate(['/client/orders', id]);
+    this.router.navigate(['/manager/orders', id]);
   }
 
-  editOrder(id: number): void {
-    this.router.navigate(['/client/orders', id, 'edit']);
-  }
-
-  submitOrder(id: number): void {
-    this.orderApi.submitOrder(id).subscribe({
-      next: () => {
-        this.snackBar.open('Order submitted for approval', 'Close', { duration: 3000 });
-        this.loadOrders();
-      },
-      error: (err) => this.snackBar.open(err.error?.message ?? 'Failed to submit', 'Close', { duration: 3000 })
-    });
-  }
-
-  cancelOrder(id: number): void {
-    this.orderApi.cancelOrder(id).subscribe({
-      next: () => {
-        this.snackBar.open('Order canceled', 'Close', { duration: 3000 });
-        this.loadOrders();
-      },
-      error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Failed to cancel order', 'Close', { duration: 3000 });
-      }
-    });
+  scheduleDelivery(id: number): void {
+    this.router.navigate(['/manager/orders', id, 'schedule']);
   }
 }

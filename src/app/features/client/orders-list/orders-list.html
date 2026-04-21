@@ -54,6 +54,11 @@
               <mat-icon>edit</mat-icon>
             </button>
           }
+          @if (canSubmit(o.status)) {
+            <button mat-icon-button matTooltip="Submit for Approval" color="primary" (click)="submitOrder(o.id)">
+              <mat-icon>send</mat-icon>
+            </button>
+          }
           @if (canCancel(o.status)) {
             <button mat-icon-button matTooltip="Cancel" color="warn" (click)="cancelOrder(o.id)">
               <mat-icon>cancel</mat-icon>

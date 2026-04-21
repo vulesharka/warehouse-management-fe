@@ -1,0 +1,70 @@
+<app-navbar />
+
+<div class="container">
+  <div class="page-header">
+    <h2>Orders</h2>
+  </div>
+
+  <div class="status-filter">
+    <button class="filter-chip" [class.active]="selectedStatus === ''" (click)="onStatusChange('')">All</button>
+    @for (status of statusOptions; track status) {
+      <button class="filter-chip" [class.active]="selectedStatus === status" (click)="onStatusChange(status)">
+        {{ status }}
+      </button>
+    }
+  </div>
+
+  <mat-progress-bar mode="indeterminate" *ngIf="loading" />
+
+  <mat-table [dataSource]="orders" class="orders-table">
+
+    <ng-container matColumnDef="orderNumber">
+      <mat-header-cell *matHeaderCellDef>Order #</mat-header-cell>
+      <mat-cell *matCellDef="let o">{{ o.orderNumber }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="clientUsername">
+      <mat-header-cell *matHeaderCellDef>Client</mat-header-cell>
+      <mat-cell *matCellDef="let o">{{ o.clientUsername }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let o">
+        <span [class]="'status-badge ' + o.status.toLowerCase()">{{ o.status }}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="submittedDate">
+      <mat-header-cell *matHeaderCellDef>Submitted</mat-header-cell>
+      <mat-cell *matCellDef="let o">{{ o.submittedDate ? (o.submittedDate | date:'dd/MM/yyyy') : '—' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let o">
+        <button mat-icon-button matTooltip="View" (click)="viewOrder(o.id)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        @if (o.status === 'APPROVED') {
+          <button mat-icon-button matTooltip="Schedule Delivery" color="primary" (click)="scheduleDelivery(o.id)">
+            <mat-icon>local_shipping</mat-icon>
+          </button>
+        }
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">No orders found</td>
+    </tr>
+  </mat-table>
+
+  <mat-paginator
+    [length]="totalElements"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)" />
+</div>
