@@ -86,6 +86,35 @@
   letter-spacing: 0.3px;
 }
 
+.forgot-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+
+  span {
+    color: #1565c0;
+    cursor: pointer;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.forgot-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.forgot-success {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2e7d32;
+  font-size: 14px;
+  margin: 0;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+}
+
 .error-box {
   display: flex;
   align-items: center;

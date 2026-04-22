@@ -48,6 +48,40 @@
         </button>
 
       </form>
+
+      <div class="forgot-link">
+        <span (click)="toggleForgot()">{{ showForgot ? 'Cancel' : 'Forgot password?' }}</span>
+      </div>
+
+      @if (showForgot) {
+        <div class="forgot-section">
+          @if (forgotSent) {
+            <p class="forgot-success">
+              <mat-icon>check_circle</mat-icon>
+              Reset link sent — check your email.
+            </p>
+          } @else {
+            <form [formGroup]="forgotForm" (ngSubmit)="sendReset()">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" autocomplete="email" />
+                <mat-error *ngIf="forgotForm.get('email')?.hasError('required')">Required</mat-error>
+                <mat-error *ngIf="forgotForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
+              </mat-form-field>
+              @if (forgotError) {
+                <div class="error-box" style="margin-bottom: 12px;">
+                  <mat-icon>error_outline</mat-icon>
+                  <span>{{ forgotError }}</span>
+                </div>
+              }
+              <button mat-stroked-button color="primary" type="submit" class="full-width">
+                Send Reset Link
+              </button>
+            </form>
+          }
+        </div>
+      }
+
     </div>
   </div>
 </div>
