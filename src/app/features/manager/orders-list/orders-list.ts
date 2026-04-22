@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
 import { OrderApiService } from '../../../shared/services/order-api.service';
 import { OrderSummaryResponse, OrderStatus } from '../../../core/models/order.model';
+import { DeclineReasonDialogComponent } from './decline-reason-dialog';
 
 @Component({
   selector: 'app-manager-orders-list',
@@ -12,10 +14,13 @@ import { OrderSummaryResponse, OrderStatus } from '../../../core/models/order.mo
   standalone: false
 })
 export class ManagerOrdersListComponent implements OnInit {
-  private readonly orderApi = inject(OrderApiService);
-  private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly cdr = inject(ChangeDetectorRef);
+  constructor(
+    private readonly orderApi: OrderApiService,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   displayedColumns = ['orderNumber', 'clientUsername', 'status', 'submittedDate', 'actions'];
   orders: OrderSummaryResponse[] = [];
@@ -70,5 +75,32 @@ export class ManagerOrdersListComponent implements OnInit {
 
   scheduleDelivery(id: number): void {
     this.router.navigate(['/manager/orders', id, 'schedule']);
+  }
+
+  approveOrder(order: OrderSummaryResponse): void {
+    this.orderApi.approveOrder(order.id).subscribe({
+      next: () => {
+        this.snackBar.open(`Order ${order.orderNumber} approved`, 'Close', { duration: 3000 });
+        this.loadOrders();
+      },
+      error: (err) => this.snackBar.open(err.error?.message ?? 'Failed to approve', 'Close', { duration: 3000 })
+    });
+  }
+
+  declineOrder(order: OrderSummaryResponse): void {
+    const ref = this.dialog.open(DeclineReasonDialogComponent, {
+      width: '500px',
+      data: { orderNumber: order.orderNumber }
+    });
+    ref.afterClosed().subscribe(reason => {
+      if (reason === undefined) return;
+      this.orderApi.declineOrder(order.id, reason ?? undefined).subscribe({
+        next: () => {
+          this.snackBar.open(`Order ${order.orderNumber} declined`, 'Close', { duration: 3000 });
+          this.loadOrders();
+        },
+        error: (err) => this.snackBar.open(err.error?.message ?? 'Failed to decline', 'Close', { duration: 3000 })
+      });
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
@@ -12,10 +12,12 @@ import { OrderSummaryResponse, OrderStatus } from '../../../core/models/order.mo
   standalone: false
 })
 export class OrdersListComponent implements OnInit {
-  private readonly orderApi = inject(OrderApiService);
-  private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly cdr = inject(ChangeDetectorRef);
+  constructor(
+    private readonly orderApi: OrderApiService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   displayedColumns = ['orderNumber', 'status', 'createdAt', 'submittedDate', 'actions'];
   orders: OrderSummaryResponse[] = [];

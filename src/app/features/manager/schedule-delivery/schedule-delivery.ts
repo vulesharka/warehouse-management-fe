@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DeliveryApiService } from '../../../shared/services/delivery-api.service';
 import { TruckApiService } from '../../../shared/services/truck-api.service';
 import { TruckResponse } from '../../../core/models/truck.model';
@@ -15,13 +14,15 @@ import { TruckResponse } from '../../../core/models/truck.model';
   standalone: false
 })
 export class ScheduleDeliveryComponent implements OnInit {
-  private readonly deliveryApi = inject(DeliveryApiService);
-  private readonly truckApi = inject(TruckApiService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly fb = inject(FormBuilder);
-  private readonly cdr = inject(ChangeDetectorRef);
+  constructor(
+    private readonly deliveryApi: DeliveryApiService,
+    private readonly truckApi: TruckApiService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly fb: FormBuilder,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   orderId!: number;
   availableDays: string[] = [];

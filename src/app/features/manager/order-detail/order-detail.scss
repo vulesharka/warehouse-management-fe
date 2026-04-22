@@ -4,14 +4,17 @@
   padding: 0 16px;
 }
 
-.page-header {
+.page-header h2 {
+  margin: 0;
+  color: #1565c0;
+}
+
+.title-group {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-
-  h2 { margin: 0; }
+  gap: 8px;
 }
+
 
 .info-card {
   margin-bottom: 24px;

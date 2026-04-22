@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Decline Order {{ data.orderNumber }}</h2>
+
+<mat-dialog-content>
+  <p>Provide a reason for declining this order (optional).</p>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" style="width:100%">
+      <textarea matInput formControlName="reason" rows="4" style="width:100%"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="confirm()">Decline</button>
+</mat-dialog-actions>

@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { InventoryApiService } from '../../../shared/services/inventory-api.service';
 import { InventoryItemResponse } from '../../../core/models/inventory.model';
 import { InventoryFormDialogComponent } from './inventory-form-dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-inventory',
@@ -13,10 +13,12 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog';
   standalone: false
 })
 export class InventoryComponent implements OnInit {
-  private readonly inventoryApi = inject(InventoryApiService);
-  private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly cdr = inject(ChangeDetectorRef);
+  constructor(
+    private readonly inventoryApi: InventoryApiService,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   displayedColumns = ['name', 'quantity', 'unitPrice', 'packageVolume', 'actions'];
   items: InventoryItemResponse[] = [];

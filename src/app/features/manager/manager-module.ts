@@ -20,24 +20,24 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ManagerRoutingModule } from './manager-routing-module';
 import { SharedModule } from '../../shared/shared-module';
 import { ManagerOrdersListComponent } from './orders-list/orders-list';
+import { DeclineReasonDialogComponent } from './orders-list/decline-reason-dialog';
 import { ManagerOrderDetailComponent } from './order-detail/order-detail';
 import { ScheduleDeliveryComponent } from './schedule-delivery/schedule-delivery';
 import { InventoryComponent } from './inventory/inventory';
 import { InventoryFormDialogComponent } from './inventory/inventory-form-dialog';
 import { TrucksComponent } from './trucks/trucks';
 import { TruckFormDialogComponent } from './trucks/truck-form-dialog';
-import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog';
 
 @NgModule({
   declarations: [
     ManagerOrdersListComponent,
+    DeclineReasonDialogComponent,
     ManagerOrderDetailComponent,
     ScheduleDeliveryComponent,
     InventoryComponent,
     InventoryFormDialogComponent,
     TrucksComponent,
-    TruckFormDialogComponent,
-    ConfirmDialogComponent
+    TruckFormDialogComponent
   ],
   imports: [
     CommonModule,

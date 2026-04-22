@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OrderRequest, OrderResponse, OrderStatus, OrderSummaryResponse } from '../../core/models/order.model';
@@ -6,7 +6,8 @@ import { PageResponse } from '../../core/models/page.model';
 
 @Injectable({ providedIn: 'root' })
 export class OrderApiService {
-  private readonly http = inject(HttpClient);
+
+  constructor(private readonly http: HttpClient) {}
 
   // Client endpoints
   getMyOrders(status?: OrderStatus, page = 0, size = 10): Observable<PageResponse<OrderSummaryResponse>> {

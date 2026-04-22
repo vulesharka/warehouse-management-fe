@@ -7,6 +7,16 @@
       <a mat-button routerLink="/manager/trucks" routerLinkActive="active-link">Trucks</a>
     </nav>
   }
+  @if (role === 'ROLE_CLIENT') {
+    <nav class="nav-links">
+      <a mat-button routerLink="/client/orders" routerLinkActive="active-link">Orders</a>
+    </nav>
+  }
+  @if (role === 'ROLE_SYSTEM_ADMIN') {
+    <nav class="nav-links">
+      <a mat-button routerLink="/admin/users" routerLinkActive="active-link">Users</a>
+    </nav>
+  }
   <span class="spacer"></span>
   <span class="username">{{ username }}</span>
   <button mat-icon-button (click)="logout()" matTooltip="Logout">

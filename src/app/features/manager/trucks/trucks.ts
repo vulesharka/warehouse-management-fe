@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
 import { TruckApiService } from '../../../shared/services/truck-api.service';
 import { TruckResponse } from '../../../core/models/truck.model';
 import { TruckFormDialogComponent } from './truck-form-dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-trucks',
@@ -14,10 +14,12 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog';
   standalone: false
 })
 export class TrucksComponent implements OnInit {
-  private readonly truckApi = inject(TruckApiService);
-  private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly cdr = inject(ChangeDetectorRef);
+  constructor(
+    private readonly truckApi: TruckApiService,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   displayedColumns = ['licensePlate', 'chassisNumber', 'containerVolume', 'actions'];
   trucks: TruckResponse[] = [];

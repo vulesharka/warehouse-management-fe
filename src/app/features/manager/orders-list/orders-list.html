@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="page-header">
-    <h2>Orders</h2>
+    <h2 class="page-title">Orders</h2>
   </div>
 
   <div class="status-filter">
@@ -46,6 +46,14 @@
         <button mat-icon-button matTooltip="View" (click)="viewOrder(o.id)">
           <mat-icon>visibility</mat-icon>
         </button>
+        @if (o.status === 'AWAITING_APPROVAL') {
+          <button mat-icon-button matTooltip="Approve" color="primary" (click)="approveOrder(o)">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Decline" color="warn" (click)="declineOrder(o)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        }
         @if (o.status === 'APPROVED') {
           <button mat-icon-button matTooltip="Schedule Delivery" color="primary" (click)="scheduleDelivery(o.id)">
             <mat-icon>local_shipping</mat-icon>

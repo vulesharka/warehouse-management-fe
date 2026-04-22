@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TruckRequest, TruckResponse } from '../../core/models/truck.model';
@@ -6,7 +6,8 @@ import { PageResponse } from '../../core/models/page.model';
 
 @Injectable({ providedIn: 'root' })
 export class TruckApiService {
-  private readonly http = inject(HttpClient);
+
+  constructor(private readonly http: HttpClient) {}
 
   getAll(page = 0, size = 20): Observable<PageResponse<TruckResponse>> {
     const params = new HttpParams().set('page', page).set('size', size);

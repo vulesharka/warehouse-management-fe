@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -8,10 +8,13 @@ import { AuthService } from '../../../core/services/auth.service';
   standalone: false
 })
 export class NavbarComponent {
-  private readonly authService = inject(AuthService);
+  readonly username: string | null;
+  readonly role: string | null;
 
-  readonly username = this.authService.getUsername();
-  readonly role = this.authService.getRole();
+  constructor(private readonly authService: AuthService) {
+    this.username = this.authService.getUsername();
+    this.role = this.authService.getRole();
+  }
 
   logout(): void {
     this.authService.logout();

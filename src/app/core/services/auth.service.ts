@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, map, tap } from 'rxjs';
@@ -7,9 +7,12 @@ import { AuthResponse, LoginRequest } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly http = inject(HttpClient);
-  private readonly tokenService = inject(TokenService);
-  private readonly router = inject(Router);
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly tokenService: TokenService,
+    private readonly router: Router
+  ) {}
 
   login(request: LoginRequest): Observable<void> {
     return this.http.post<AuthResponse>('/api/auth/login', request).pipe(

@@ -1,11 +1,12 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InventoryItemRequest, InventoryItemResponse } from '../../core/models/inventory.model';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryApiService {
-  private readonly http = inject(HttpClient);
+
+  constructor(private readonly http: HttpClient) {}
 
   getAll(): Observable<InventoryItemResponse[]> {
     return this.http.get<InventoryItemResponse[]>('/api/inventory');

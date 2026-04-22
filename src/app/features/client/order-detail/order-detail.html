@@ -7,11 +7,13 @@
     </div>
   } @else if (order) {
     <div class="page-header">
-      <button mat-icon-button (click)="back()" matTooltip="Back">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <h2>Order {{ order.orderNumber }}</h2>
-      <span [class]="'status-badge ' + order.status.toLowerCase()">{{ order.status }}</span>
+      <div class="title-group">
+        <button mat-icon-button (click)="back()" matTooltip="Back">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Order {{ order.orderNumber }}</h2>
+        <span [class]="'status-badge ' + order.status.toLowerCase()">{{ order.status }}</span>
+      </div>
     </div>
 
     @if (order.status === 'DECLINED' && order.declineReason) {

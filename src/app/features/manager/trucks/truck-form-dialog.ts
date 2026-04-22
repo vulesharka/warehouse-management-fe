@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TruckResponse } from '../../../core/models/truck.model';
@@ -13,17 +13,21 @@ export interface TruckDialogData {
   standalone: false
 })
 export class TruckFormDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<TruckFormDialogComponent>);
-  private readonly fb = inject(FormBuilder);
-  readonly data: TruckDialogData = inject(MAT_DIALOG_DATA);
+  readonly isEdit: boolean;
+  form: FormGroup;
 
-  readonly isEdit = this.data.truck !== null;
-
-  form: FormGroup = this.fb.group({
-    licensePlate: [this.data.truck?.licensePlate ?? '', Validators.required],
-    chassisNumber: [this.data.truck?.chassisNumber ?? '', Validators.required],
-    containerVolume: [this.data.truck?.containerVolume ?? 1, [Validators.required, Validators.min(0.01)]]
-  });
+  constructor(
+    private readonly dialogRef: MatDialogRef<TruckFormDialogComponent>,
+    private readonly fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) readonly data: TruckDialogData
+  ) {
+    this.isEdit = data.truck !== null;
+    this.form = this.fb.group({
+      licensePlate: [data.truck?.licensePlate ?? '', Validators.required],
+      chassisNumber: [data.truck?.chassisNumber ?? '', Validators.required],
+      containerVolume: [data.truck?.containerVolume ?? 1, [Validators.required, Validators.min(0.01)]]
+    });
+  }
 
   submit(): void {
     if (this.form.invalid) return;

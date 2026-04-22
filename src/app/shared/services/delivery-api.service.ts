@@ -1,11 +1,12 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AvailableDaysResponse, DeliveryResponse, ScheduleDeliveryRequest } from '../../core/models/delivery.model';
 
 @Injectable({ providedIn: 'root' })
 export class DeliveryApiService {
-  private readonly http = inject(HttpClient);
+
+  constructor(private readonly http: HttpClient) {}
 
   getAvailableDays(orderId: number, days?: number): Observable<AvailableDaysResponse> {
     let params = new HttpParams();
